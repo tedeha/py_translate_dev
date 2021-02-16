@@ -93,7 +93,7 @@ now = datetime.now()
 # dd/mm/YY H:M:S
 dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 print("START_TIME =", dt_string)	
-current_start_index = 8840
+current_start_index = 10090
 error_times = 0
 save_now_index = current_start_index + 1000
 
@@ -105,7 +105,7 @@ for i in range(current_start_index,len(data)):
 
     if save_now_index == i:
         save_now_index = save_now_index + 1000
-        with open(file_path + str(i) +file_name, 'w') as outfile:
+        with open(file_path + str(i) +'_' +file_name, 'w') as outfile:
             json.dump(data, outfile)
         print('JSON DUMP DONE: ' + str(i))
 
@@ -114,7 +114,7 @@ for i in range(current_start_index,len(data)):
     if len(text_input) < 3:
         text_input = ""
 
-    print('Looping: ' + str(i) + '/' + str(len(data)) + " / "+ str(len(text_input)))
+    print('Looping: ' + str(i) + ' / ' + str(len(data)) + " / "+ str(len(text_input)))
 
 
     try:
