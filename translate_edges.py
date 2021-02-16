@@ -93,14 +93,22 @@ now = datetime.now()
 # dd/mm/YY H:M:S
 dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 print("START_TIME =", dt_string)	
-current_start_index = 5300
+current_start_index = 8840
 error_times = 0
+save_now_index = current_start_index + 1000
 
 for i in range(current_start_index,len(data)):
     #Start Looping
     
     text_input = data[i]['content']
     current_start_index = i
+
+    if save_now_index == i:
+        save_now_index = save_now_index + 1000
+        with open(file_path + str(i) +file_name, 'w') as outfile:
+            json.dump(data, outfile)
+        print('JSON DUMP DONE: ' + str(i))
+
 
     #error handler
     if len(text_input) < 3:
