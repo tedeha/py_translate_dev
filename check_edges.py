@@ -14,7 +14,6 @@ translator = google_translator()
 #C:\dc2\mysql_edges.json
 file_path = 'C:\\dc2\\'
 file_name = 'mysql_edges_en3.json'
-#file_name = '9_MAX_mysql_edges_en2.json'
 
 ## LOAD LOCALE JSON
 #
@@ -26,9 +25,8 @@ with open(file_path + file_name) as f:
 
 
 
-def translate_text(text,index):
+def translate_text(text):
     to_translate_text = text.replace("\u200e","#")
-    to_translate_text = to_translate_text.strip()
     if len(to_translate_text) < 3:
         to_translate_text = ""
 
@@ -37,9 +35,6 @@ def translate_text(text,index):
     except print(0):
         translated_text = 'ERROR'
     
-    if text == translated_text:
-        print('INPUT ===== OUTPUT: ' + str(index))
-
     return translated_text
 
 
@@ -98,59 +93,16 @@ now = datetime.now()
 # dd/mm/YY H:M:S
 dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 print("START_TIME =", dt_string)	
-current_start_index = 32819 #13978
+current_start_index = 1980
 error_times = 0
 save_now_index = current_start_index + 1000
-max_index = 0
-max_index = len(data)
-data_length = len(data)
-last_index = 0
+max_index = 1990
+
 for i in range(current_start_index,max_index):
     #Start Looping
+    text = data[i]['content']
+    print(str(i) + ":" + text)
     
-    text_input = data[i]['content']
-    last_index = i
-
-    if save_now_index == i:
-        print('SAVE JSON DUM NOW: ' + str(i))
-        save_now_index = save_now_index + 1000
-        with open(file_path + str(i) +'_' +file_name, 'w') as outfile:
-            json.dump(data, outfile)
-        print('JSON DUMP DONE: ' + str(i))
-
-
-    #error handler
-    if len(text_input) < 3:
-        text_input = ""
-
-    print('Looping: ' + str(i) + ' / ' + str(data_length) + " / "+ str(len(text_input)))
-
-    if i == max_index-1:
-        print('SAVE JSON DUM - MAX INDEX REACHED: ' + str(i))
-        save_now_index = save_now_index + 1000
-        with open(file_path + str(i) +'_MAX_' +file_name, 'w') as outfile:
-            json.dump(data, outfile)
-        print('JSON DUMP DONE: ' + str(i))
-
-    try:
-        text_en = translate_text(text_input,i)
-        if text_en != 'ERROR':
-            data[i]['content'] = text_en
-        else:
-            print('DUMP JSON BEFORE END WITH ERROR: ' + str(i))
-            last_index = i
-            with open(file_path + file_name, 'w') as outfile:
-                json.dump(data, outfile)
-            print('JSON DUMP DONE')
-    except:
-        print('##### ERROR while looping and translating')
-        print('### LAST INDEX: ' + str(i))
-        last_index = i
-        with open(file_path + file_name, 'w') as outfile:
-            json.dump(data, outfile)
-        print('JSON DUMP DONE - FEHLER ENDE')
-        print(logging.exception('FEHLER'))
-        break
 
 
 
